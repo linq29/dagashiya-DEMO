@@ -1,0 +1,91 @@
+{% extends "layout/base.html" %}
+
+{% block title %}買い物かご | デジタル昭和横丁{% endblock %}
+
+{% block content %}
+
+<section class="page-section">
+    <div class="page-inner">
+        <div class="cart-container">
+
+            <h1 class="page-title">買い物かご</h1>
+
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <div class="flash-messages">
+                {% for message in messages %}
+                <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% endwith %}
+
+            {% if items %}
+            {% set ns = namespace(has_over_limit=false) %}
+            {% for item in items %}
+            {% if item['quantity'] > item['max_quantity'] %}
+            {% set ns.has_over_limit = true %}
+            {% endif %}
+            <div class="cart-item">
+
+                <div class="cart-image">
+                    <img src="{{ url_for('static', filename='img/products/' ~ item['image']) }}"
+                        alt="{{ item['pName'] }}">
+                </div>
+
+                <div class="cart-info">
+                    <h2 class="cart-name">{{ item['pName'] }}</h2>
+                    <p class="cart-price">¥{{ item['price']|yen }}<span class="price-tax">（税込み）</span></p>
+                    <p class="cart-stock">購入可能上限: {{ item['max_quantity'] }}</p>
+                    <p class="cart-subtotal">小計: ¥{{ (item['price'] * item['quantity'])|yen }}</p>
+
+                    <div class="cart-actions">
+                        <form class="cart-quantity-form quantity-form"
+                            action="{{ url_for('update_cart_item', cartID=item['cartID']) }}" method="post">
+                            <label class="quantity-label">数量:</label>
+                            <div class="quantity-stepper" data-max="{{ item['max_quantity'] }}" data-min="1">
+                                <button type="button" class="qty-btn" data-step="decrease"
+                                    aria-label="数量を減らす">-</button>
+                                <input type="number" name="quantity" value="{{ item['quantity'] }}" min="1"
+                                    max="{{ item['max_quantity'] }}" class="quantity-input" inputmode="numeric" {% if
+                                    item['max_quantity'] <=0 %}disabled{% endif %}>
+                                <button type="button" class="qty-btn" data-step="increase"
+                                    aria-label="数量を増やす">+</button>
+                            </div>
+                            <button type="submit" class="cart-btn update">更新</button>
+                            <p class="quantity-feedback" aria-live="polite"></p>
+                        </form>
+
+                        <form action="{{ url_for('delete_cart_item', cartID=item['cartID']) }}" method="post">
+                            <button type="submit" class="cart-btn delete">削除</button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+            {% endfor %}
+
+            <div class="cart-total">
+                <p>合計: <strong>¥{{ total|yen }}</strong></p>
+                {% if session.get('user_id') %}
+                {% if ns.has_over_limit %}
+                <p class="quantity-feedback">在庫数を超えている商品があります。数量を調整してください。</p>
+                {% else %}
+                <a href="{{ url_for('checkout') }}" class="checkout-btn cart-checkout-btn">購入手続きへ</a>
+                {% endif %}
+                {% else %}
+                <p class="login-reminder">購入するにはログインしてください。</p>
+                <a href="{{ url_for('login') }}" class="login-btn">ログイン</a>
+                {% endif %}
+            </div>
+
+
+            {% else %}
+            <p class="empty-cart">買い物かごに商品がありません。</p>
+            {% endif %}
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}

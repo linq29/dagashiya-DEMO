@@ -1,0 +1,75 @@
+{% extends "layout/base.html" %}
+
+{% block title %}商品追加 | デジタル昭和横丁{% endblock %}
+
+{% block content %}
+<section class="page-section admin-page">
+  <div class="page-inner">
+
+    <header class="page-heading">
+      <h1 class="page-title" id="add-product">商品追加</h1>
+      <p class="page-lead">商品情報を入力して、新しい商品を登録します。</p>
+    </header>
+
+    <div class="admin-card">
+      <form class="admin-form" method="POST" enctype="multipart/form-data">
+
+        <div class="form-grid">
+
+          <div class="form-field">
+            <label class="form-label" for="tagID">タグ</label>
+            <select class="form-control" id="tagID" name="tagID" required>
+              {% for tag in tags %}
+              <option value="{{ tag.tagID }}">{{ tag.tagName }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label class="form-label" for="pName">商品名</label>
+            <input class="form-control" id="pName" type="text" name="pName" required placeholder="例：ラムネ / だがし など">
+          </div>
+
+          <div class="form-field">
+            <label class="form-label" for="price">価格（円）</label>
+            <input class="form-control" id="price" type="number" name="price" required min="0" step="1" placeholder="例：120">
+          </div>
+
+          <div class="form-field">
+            <label class="form-label" for="country">国</label>
+            <input class="form-control" id="country" type="text" name="country" placeholder="例：日本">
+          </div>
+
+          <div class="form-field form-field--full">
+            <label class="form-label" for="pDescription">説明</label>
+            <textarea class="form-control form-textarea" id="pDescription" name="pDescription" rows="6"
+              placeholder="商品の特徴、味、注意事項などを書いてください。"></textarea>
+          </div>
+
+          <div class="form-field form-field--full">
+            <label class="form-label" for="image">画像</label>
+            <div class="file-row">
+              <input class="form-control form-file" id="image" type="file" name="image"
+                accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp">
+              <p class="form-help">※対応形式: jpg / jpeg / png / webp。画像名に英数字と"-""_"だけ使ってください。画像が未選択でも登録できます。</p>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">
+            <span class="btn-label">追加</span>
+          </button>
+
+          <a href="{{ url_for('admin_stock') }}" class="btn btn-ghost">
+            戻る
+          </a>
+        </div>
+
+      </form>
+    </div>
+
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends "layout/base.html" %}
+
+{% block title %}商品編集 | デジタル昭和横丁{% endblock %}
+
+{% block content %}
+
+<div class="admin-container">
+
+    <h1 class="admin-title">商品編集</h1>
+
+    <form method="post" enctype="multipart/form-data" class="admin-form">
+
+        <!-- タグ -->
+        <div class="form-group">
+            <label>タグ</label>
+            <select name="tagID" required>
+                {% for t in tags %}
+                <option value="{{ t.tagID }}" {% if product.tagID == t.tagID %}selected{% endif %}>
+                    {{ t.tagName }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- 商品名 -->
+        <div class="form-group">
+            <label>商品名</label>
+            <input type="text" name="pName" value="{{ product.pName }}" required>
+        </div>
+
+        <!-- 価格 -->
+        <div class="form-group">
+            <label>価格</label>
+            <input type="number" name="price" value="{{ product.price }}" required min="1">
+        </div>
+
+        <!-- 説明 -->
+        <div class="form-group">
+            <label>説明</label>
+            <textarea name="pDescription" rows="5" required>{{ product.pDescription }}</textarea>
+        </div>
+
+        <!-- 国 -->
+        <div class="form-group">
+            <label>国</label>
+            <input type="text" name="country" value="{{ product.country }}" required>
+        </div>
+
+        <!-- 現在の画像 -->
+        <div class="form-group">
+            <label>現在の画像</label>
+            {% if product.image %}
+                <img src="{{ url_for('static', filename='img/products/' ~ product.image) }}"
+                     alt="Current Image"
+                     class="admin-preview-img">
+                <p class="current-image-name">{{ product.image }}</p>
+            {% else %}
+                <p>画像なし</p>
+            {% endif %}
+        </div>
+
+        <!-- 新しい画像 -->
+        <div class="form-group">
+            <label>新しい画像（アップロード）</label>
+            <input type="file" name="image_file" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp">
+            <p class="note">※対応形式: jpg / jpeg / png / webp。画像を変更しない場合は空欄のままでOK</p>
+        </div>
+
+        <!-- 編集ボタン & 戻るボタン -->
+        <div class="admin-actions">
+            <button type="submit" class="admin-save-btn">変更を保存</button>
+            <a href="{{ url_for('product_list') }}" class="admin-back-btn">商品一覧へ戻る</a>
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

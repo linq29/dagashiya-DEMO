@@ -1,0 +1,60 @@
+{% extends "layout/base.html" %}
+{% block title %}配達について | デジタル昭和横丁{% endblock %}
+
+{% block content %}
+<section class="page-section info-page">
+    <div class="page-inner">
+
+        <header class="page-heading">
+            <h1 class="page-title">配達について</h1>
+            <p class="page-lead">
+                ご注文商品の配達方法・送料・お届け目安についてご案内します。
+            </p>
+        </header>
+
+        <div class="info-card">
+
+            <h2 class="info-subtitle">配達エリア</h2>
+            <p class="info-text">
+                当店は<strong>日本全国</strong>への配達に対応しております。
+                ただし、一部の離島・山間部など、配達条件により
+                <strong>追加送料</strong>が発生する場合がございます。
+            </p>
+
+            <hr class="info-divider">
+
+            <h2 class="info-subtitle">配達日数の目安</h2>
+            <p class="info-text">
+                通常、ご注文確定後<strong>3〜5営業日以内</strong>に発送いたします。
+                地域や交通状況により、到着までの日数が前後する場合がございます。
+            </p>
+
+            <hr class="info-divider">
+
+            <h2 class="info-subtitle">送料について</h2>
+            <p class="info-text">
+                送料はお届け先地域およびご注文内容により異なります。
+                ご注文手続き画面にて、最終的な送料をご確認ください。
+                また、<strong>一定金額以上のご購入で送料無料</strong>となる場合があります。
+            </p>
+
+            <hr class="info-divider">
+
+            <h2 class="info-subtitle">配達状況の確認</h2>
+            <p class="info-text">
+                商品発送後、追跡番号を記載したメールをお送りいたします。
+                配送業者のウェブサイトより、最新の配達状況をご確認いただけます。
+            </p>
+
+            <hr class="info-divider">
+
+            <h2 class="info-subtitle">お問い合わせ</h2>
+            <p class="info-text">
+                配達に関するご質問やトラブルがございましたら、
+                <a href="{{ url_for('info') }}">お問い合わせページ</a>よりお気軽にご連絡ください。
+            </p>
+
+        </div>
+    </div>
+</section>
+{% endblock %}

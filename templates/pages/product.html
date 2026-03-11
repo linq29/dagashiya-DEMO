@@ -1,0 +1,74 @@
+{% extends "layout/base.html" %}
+
+{% block title %}{{ product['pName'] }} | デジタル昭和横丁{% endblock %}
+
+{% block content %}
+
+<div class="background-product">
+  <section class="product-page">
+
+    <!-- 商品画像 -->
+    <div class="product-image">
+      <img src="{{ url_for('static', filename='img/products/' ~ product['image']) }}" alt="{{ product['pName'] }}">
+    </div>
+
+    <!-- 商品情報 -->
+    <div class="product-info">
+
+      <!-- パンくず -->
+      <nav class="breadcrumb inside">
+        <a href="{{ url_for('index') }}">トップ</a> ＞
+        <a href="#">商品一覧</a> ＞
+        <span>{{ product['pName'] }}</span>
+      </nav>
+      {% set country_labels = {"Japan": "日本", "China": "中国"} %}
+      <div class="product-title-wrapper">
+        <h2 class="product-title">{{ product['pName'] }}</h2>
+        <p class="product-country">{{ country_labels.get(product['country'], product['country']) }}</p>
+      </div>
+
+      <p class="product-price">
+        ¥{{ product['price']|yen }}<span class="price-tax">（税込み）</span></span>
+      </p>
+
+      <p class="product-desc">
+        {{ product['pDescription'] | replace('\n', '<br>') | safe }}
+      </p>
+
+      <p class="product-stock">
+        在庫:
+        {{ product['stock'] if 'stock' in product.keys() and product['stock'] is not none else 50 }}
+      </p>
+
+      <!-- カート追加フォーム -->
+      {% set stock = product['stock'] if 'stock' in product.keys() and product['stock'] is not none else 50 %}
+      <form action="{{ url_for('add_to_cart', pID=product['pID']) }}" method="post" class="quantity-form">
+        <div class="quantity-label">数量:</div>
+        <div class="quantity-stepper" data-max="{{ stock }}" data-min="1">
+          <button type="button" class="qty-btn" data-step="decrease" aria-label="数量を減らす">-</button>
+          <input
+            type="number"
+            name="quantity"
+            value="1"
+            min="1"
+            max="{{ stock }}"
+            class="quantity-input"
+            inputmode="numeric"
+            {% if stock <= 0 %}disabled{% endif %}
+          >
+          <button type="button" class="qty-btn" data-step="increase" aria-label="数量を増やす">+</button>
+        </div>
+        <p class="quantity-feedback" aria-live="polite"></p>
+        <button type="submit" class="add-cart-btn">
+          <img src="{{ url_for('static', filename='img/icons-cart-w.webp') }}" alt="">
+          かごに入れる
+        </button>
+      </form>
+
+
+    </div>
+
+  </section>
+</div>
+
+{% endblock %}

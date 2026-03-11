@@ -1,0 +1,77 @@
+{% extends "layout/base.html" %}
+
+{% block title %}商品管理 | デジタル昭和横丁{% endblock %}
+
+{% block content %}
+<section class="page-section admin-page">
+  <div class="page-inner">
+
+    <header class="page-heading">
+      <h1 class="page-title" id="admin-stock">商品管理</h1>
+      <p class="page-lead">商品の追加・在庫更新・削除を行えます。</p>
+    </header>
+
+    <div class="admin-card admin-toolbar">
+      <div class="admin-actions">
+        <a href="{{ url_for('add_product') }}" class="btn btn-primary">＋ 新規追加</a>
+      </div>
+    </div>
+
+    <div class="admin-card">
+      <h2 class="admin-subtitle">在庫管理（管理者）</h2>
+
+      <div class="table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th class="col-id">ID</th>
+              <th>商品名</th>
+              <th class="col-price table-price">価格</th>
+              <th class="col-stock">在庫</th>
+              <th class="col-action">更新</th>
+              <th class="col-action">削除</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {% for p in products %}
+            <tr>
+              <!-- 更新フォーム -->
+              <td>{{ p.pID }}</td>
+              <td class="cell-name">{{ p.pName }}</td>
+              <td class="table-price">¥{{ p.price|yen }}</td>
+
+              <td>
+                <form class="stock-form" method="POST">
+                  <input class="form-control form-control--small" type="number" name="stock" value="{{ p.stock }}" min="0">
+                  <input type="hidden" name="pID" value="{{ p.pID }}">
+              </td>
+
+              <td>
+                  <button type="submit" class="btn btn-primary btn-sm">更新</button>
+                </form>
+              </td>
+
+              <!-- 削除フォーム -->
+              <td>
+                <form method="POST"
+                      action="{{ url_for('delete_product', pID=p.pID) }}"
+                      onsubmit="return confirm('本当に削除しますか？');">
+                  <button type="submit" class="btn btn-danger btn-sm">削除</button>
+                </form>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <p class="admin-note">
+        ※在庫を更新すると即時反映されます。削除は取り消せません。
+      </p>
+
+    </div>
+
+  </div>
+</section>
+{% endblock %}

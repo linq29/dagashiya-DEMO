@@ -1,0 +1,83 @@
+# =======================================
+# Python
+# =======================================
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.py~
+
+
+# =======================================
+# Node / Vite
+# =======================================
+node_modules/
+client/node_modules/
+client/dist/
+*.tsbuildinfo
+.vite/
+
+
+# =======================================
+# Virtual Environment
+# =======================================
+venv/
+env/
+.venv/
+ENV/
+
+
+# =======================================
+# Flask / Werkzeug
+# =======================================
+instance/
+*.log
+*.pid
+
+
+# =======================================
+# System Files
+# =======================================
+.DS_Store
+Thumbs.db
+
+
+# =======================================
+# VSCode
+# =======================================
+.vscode/
+*.code-workspace
+
+
+# =======================================
+# for macOS
+# =======================================
+
+# General
+.DS_Store
+__MACOSX/
+.AppleDouble
+.LSOverride
+Icon[]
+
+# Thumbnails
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# others
+ReleaseNotes.md

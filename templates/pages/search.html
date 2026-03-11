@@ -1,0 +1,55 @@
+{% extends "layout/base.html" %}
+
+{% block title %}検索結果 | デジタル昭和横丁{% endblock %}
+
+{% block content %}
+<section class="page-section">
+  <div class="page-inner">
+    <header class="page-heading">
+      <h1 class="page-title">商品検索</h1>
+      <p class="page-lead">商品名で、気になる駄菓子を探せます。</p>
+    </header>
+
+    <div class="info-card search-info-card">
+      <form class="search-bar" action="{{ url_for('search_page') }}" method="get">
+        <input
+          type="text"
+          name="q"
+          value="{{ q or '' }}"
+          placeholder="商品名を入力してください"
+        >
+        <button class="search-btn" type="submit">
+          <img src="{{ url_for('static', filename='img/icons-search.webp') }}" alt="検索">
+        </button>
+      </form>
+
+      {% if q %}
+        <p class="info-text">「{{ q }}」の検索結果：{{ results|length }}件</p>
+      {% else %}
+        <p class="info-text">キーワードを入力して検索してください。</p>
+      {% endif %}
+    </div>
+
+    {% if q and results %}
+    <section class="items-area">
+      <h2>検索結果</h2>
+      <div class="items-grid">
+        {% for item in results %}
+        <div class="item-card">
+          <a href="{{ url_for('product') }}?id={{ item['pID'] }}">
+            <img src="{{ url_for('static', filename='img/products/' ~ item['image']) }}" alt="{{ item['pName'] }}">
+          </a>
+          <p class="item-desc">{{ item['pName'] }}</p>
+          <p class="item-price">¥{{ item['price']|yen }}<span class="price-tax">（税込み）</span></p>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+    {% elif q %}
+    <div class="info-card">
+      <p class="info-text">該当する商品が見つかりませんでした。</p>
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

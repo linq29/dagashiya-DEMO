@@ -1,0 +1,44 @@
+{% extends "layout/base.html" %}
+
+{% block title %}アイコン変更 | デジタル昭和横丁{% endblock %}
+
+{% block content %}
+<section class="mypage-section">
+  <div class="mypage-container mypage-icon-container">
+    <h1 class="mypage-title">アイコン変更</h1>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+      <div class="flash-messages">
+        {% for message in messages %}
+          <p>{{ message }}</p>
+        {% endfor %}
+      </div>
+      {% endif %}
+    {% endwith %}
+
+    <article class="mypage-card icon-card">
+      <h2>{{ user['name'] }}さんのアイコン</h2>
+      <form method="post" class="icon-form">
+        <div class="icon-choice-grid">
+          {% for icon in icon_choices %}
+          <label class="icon-choice">
+            <input
+              type="radio"
+              name="user_icon"
+              value="{{ icon }}"
+              {% if user['user_icon'] == icon %}checked{% endif %}
+            >
+            <img src="{{ url_for('static', filename='img/' ~ icon) }}" alt="{{ icon }}">
+          </label>
+          {% endfor %}
+        </div>
+        <div class="mypage-icon-actions">
+          <a href="{{ url_for('mypage') }}" class="checkout-back-btn">戻る</a>
+          <button type="submit" class="checkout-btn cart-checkout-btn">このアイコンにする</button>
+        </div>
+      </form>
+    </article>
+  </div>
+</section>
+{% endblock %}

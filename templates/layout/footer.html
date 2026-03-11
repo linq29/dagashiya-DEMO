@@ -1,0 +1,27 @@
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-col">
+      <h4>ご利用ガイド</h4>
+      <ul>
+        <li><a href="{{ url_for('about_delivery') }}">配送について</a></li>
+        <li><a href="{{ url_for('refund') }}">返品・交換</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>サイト情報</h4>
+      <ul>
+        <li><a href="{{ url_for('site_overview') }}">サイト概要</a></li>
+        <li><a href="{{ url_for('info') }}">お問い合わせ</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>その他</h4>
+      <ul>
+        <li><a href="{{ url_for('privacy_policy') }}">プライバシーポリシー</a></li>
+        <li><a href="{{ url_for('terms_of_service') }}">利用規約</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>

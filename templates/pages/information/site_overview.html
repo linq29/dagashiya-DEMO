@@ -1,0 +1,65 @@
+{% extends "layout/base.html" %}
+
+{% block title %}サイト概要 | デジタル昭和横丁{% endblock %}
+
+{% block content %}
+
+<section class="page-section info-page">
+    <div class="page-inner">
+
+        <header class="page-heading">
+            <h1 class="page-title" id="site-overview">サイト概要</h1>
+        </header>
+
+        <div class="info-card">
+
+            <p class="info-text">
+                「デジタル昭和横丁」は、昭和レトロな商品や雑貨を中心に取り扱うオンラインストアです。
+                地域の小さなお店や、どこか懐かしさを感じるモノの魅力を、
+                デジタルの形で未来へつなぐことを目的としています。
+            </p>
+
+            <hr class="info-divider">
+
+            <h2 class="info-subtitle">運営について</h2>
+            <p class="info-text">
+                本サイトは、昭和の雰囲気や文化を大切にしながら、
+                現代のライフスタイルに合った形で商品や体験を提供しています。
+            </p>
+
+            <hr class="info-divider">
+
+            <h2 class="info-subtitle">会社情報</h2>
+            <p class="info-text">
+                運営会社：デジタル昭和横丁運営事務局<br>
+                所在地：東京都（詳しい住所はお問い合わせください）
+            </p>
+
+            <hr class="info-divider">
+
+            <h2 class="info-subtitle">営業時間</h2>
+            <p class="info-text">
+                平日 9:00〜18:00（お問い合わせ対応）
+            </p>
+
+            <hr class="info-divider">
+
+            <h2 class="info-subtitle">事業内容</h2>
+            <p class="info-text">
+                オンライン販売、商品企画、地域振興を目的としたイベント企画などを行っています。
+            </p>
+
+            <hr class="info-divider">
+
+            <h2 class="info-subtitle">お問い合わせ</h2>
+            <p class="info-text">
+                サイトや商品に関するご質問・ご不明点がございましたら、
+                <a href="{{ url_for('info') }}">お問い合わせページ</a>
+                よりお気軽にご連絡ください。
+            </p>
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}

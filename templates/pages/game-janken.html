@@ -1,0 +1,118 @@
+{% extends "layout/base.html" %}
+
+{% block title %}じゃんけん | デジタル昭和横丁{% endblock %}
+{% block body_class %}page-game-janken{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/game.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="janken-wrapper">
+    <div class="janken-container">
+
+        <!-- ゲーム情報表示エリア -->
+        <div class="janken-info">
+            <div class="score-board">
+                <div class="score-item">
+                    <span class="score-label">あなた</span>
+                    <span class="score-value" id="player-score">0</span>
+                </div>
+                <div class="score-item">
+                    <span class="score-label">vs</span>
+                </div>
+                <div class="score-item">
+                    <span class="score-label">コンピューター</span>
+                    <span class="score-value" id="computer-score">0</span>
+                </div>
+            </div>
+
+            <div class="game-status" id="game-status">
+                コンピューターに勝ってポイントを獲得しよう！
+            </div>
+        </div>
+
+        <!-- 手の選択エリア -->
+        <div class="janken-choices">
+            <h2>あなたの手を選んでください</h2>
+            <div class="choices-grid">
+                <button class="choice-btn" id="choice-rock" data-choice="rock">
+                    <span class="choice-emoji">✊</span>
+                    <span class="choice-name">グー</span>
+                </button>
+                <button class="choice-btn" id="choice-scissors" data-choice="scissors">
+                    <span class="choice-emoji">✌️</span>
+                    <span class="choice-name">チョキ</span>
+                </button>
+                <button class="choice-btn" id="choice-paper" data-choice="paper">
+                    <span class="choice-emoji">✋</span>
+                    <span class="choice-name">パー</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- ゲーム結果表示エリア -->
+        <div class="janken-result" id="janken-result" style="display: none;">
+            <div class="result-container">
+                <div class="result-hands">
+                    <div class="hand-display">
+                        <span class="hand-label">あなた</span>
+                        <span class="hand-emoji" id="player-hand">✊</span>
+                    </div>
+                    <div class="vs-text">VS</div>
+                    <div class="hand-display">
+                        <span class="hand-label">コンピューター</span>
+                        <span class="hand-emoji" id="computer-hand">✊</span>
+                    </div>
+                </div>
+                <div class="result-message" id="result-message">
+                    あなたの勝ち！
+                </div>
+            </div>
+        </div>
+
+        <div class="janken-restart" id="janken-restart" style="display: none;">
+            <button class="result-btn" id="round-restart-btn">もう一回</button>
+        </div>
+
+        <!-- ゲーム説明 -->
+        <div class="janken-rules">
+            <h3>ゲームルール</h3>
+            <ul>
+                <li>コンピューターに勝つと10％引き券が貰えるよ</li>
+                <li>3回勝負だ</li>
+                <li>グー vs チョキ → グーの勝ち</li>
+                <li>チョキ vs パー → チョキの勝ち</li>
+                <li>パー vs グー → パーの勝ち</li>
+                <li>同じ手 → あいこ</li>
+            </ul>
+        </div>
+
+        <!-- 特殊サウンド -->
+        <audio id="sfx-win" src="{{ url_for('static', filename='audio/rare.mp3') }}" preload="auto"></audio>
+        <audio id="sfx-lose" src="{{ url_for('static', filename='audio/insert.mp3') }}" preload="auto"></audio>
+        <audio id="sfx-draw" src="{{ url_for('static', filename='audio/drop.mp3') }}" preload="auto"></audio>
+    </div>
+</div>
+
+<div id="jankenConfirmModal" class="modal" aria-hidden="true">
+    <div class="modal__backdrop"></div>
+    <div class="modal__panel" role="dialog" aria-modal="true">
+        <p class="result-text">わくわく券を一枚消費して遊びますか？</p>
+        <button id="jankenConfirmOk" class="modal__close">はい</button>
+        <button id="jankenConfirmCancel" class="modal__close">キャンセル</button>
+    </div>
+</div>
+
+<div id="jankenNoticeModal" class="modal" aria-hidden="true">
+    <div class="modal__backdrop"></div>
+    <div class="modal__panel" role="dialog" aria-modal="true">
+        <p id="jankenNoticeText" class="result-text"></p>
+        <button id="jankenNoticeOk" class="modal__close">オッケー</button>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/game/janken.js') }}"></script>
+{% endblock %}

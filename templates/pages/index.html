@@ -1,0 +1,67 @@
+{% extends "layout/base.html" %}
+
+{% block title %}ホーム | デジタル昭和横丁{% endblock %}
+
+{% block content %}
+<div id="productList"></div>
+
+<section class="main-visual">
+    <img class="wave-noren" src="{{ url_for('static', filename='img/mv.webp') }}" alt="メインビジュアル">
+</section>
+
+<section class="banner-area">
+    <div class="carousel" id="carousel">
+        <div class="banner-track">
+            <img src="/static/img/banner1.webp" class="banner" alt="">
+            <img src="/static/img/banner2.webp" class="banner" alt="">
+            <img src="/static/img/banner3.webp" class="banner" alt="">
+
+            <img src="/static/img/banner1.webp" class="banner" alt="">
+            <img src="/static/img/banner2.webp" class="banner" alt="">
+            <img src="/static/img/banner3.webp" class="banner" alt="">
+        </div>
+    </div>
+</section>
+
+
+<section class="items-area recommendation-area">
+    <h1>今月のおすすめ</h1>
+
+    <div class="items-grid">
+        {% for item in recommended %}
+        <div class="item-card">
+            <a href="{{ url_for('product') }}?id={{ item['pID'] }}">
+                <img src="{{ url_for('static', filename='img/products/' ~ item['image']) }}" alt="{{ item['pName'] }}">
+            </a>
+            <p class="item-desc">{{ item['pName'] }}</p>
+            <p class="item-price">¥{{ item['price']|yen }}<span class="price-tax">（税込み）</span></p>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+
+<section class="items-area">
+    <h1>商品一覧</h1>
+    <div class="items-grid">
+        {% for p in all_products %}
+        {% if p['pID'] >= 6 %}
+        <div class="item-card">
+            <a href="{{ url_for('product') }}?id={{ p['pID'] }}">
+                <img src="{{ url_for('static', filename='img/products/' ~ p['image']) }}" alt="{{ p['pName'] }}">
+            </a>
+            <p class="item-desc">{{ p['pName'] }}</p>
+            <p class="item-price">¥{{ p['price']|yen }}<span class="price-tax">（税込み）</span></p>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+
+</section>
+
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/mv.js') }}"></script>
+{% endblock %}

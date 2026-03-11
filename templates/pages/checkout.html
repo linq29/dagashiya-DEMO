@@ -1,0 +1,87 @@
+{% extends "layout/base.html" %}
+
+{% block title %}購入確認 | デジタル昭和横丁{% endblock %}
+
+{% block content %}
+
+<section class="page-section">
+    <div class="page-inner">
+        <div class="checkout-container">
+
+            <h1 class="page-title">購入確認</h1>
+
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <div class="flash-messages">
+                {% for message in messages %}
+                <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% endwith %}
+
+            <div class="checkout-items">
+                <table class="checkout-table">
+                    <tr>
+                        <th>商品</th>
+                        <th class="table-price">単価</th>
+                        <th>数量</th>
+                        <th class="table-price">商品合計</th>
+                    </tr>
+
+                    {% for item in items %}
+                    <tr>
+                        <td class="checkout-product-cell">
+                            <img src="{{ url_for('static', filename='img/products/' ~ item['image']) }}" alt="{{ item['pName'] }}">
+                            <span>{{ item['pName'] }}</span>
+                        </td>
+                        <td class="table-price">¥{{ item['price']|yen }}</td>
+                        <td>{{ item['quantity'] }}</td>
+                        <td class="checkout-item-total table-price">¥{{ (item['price'] * item['quantity'])|yen }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+
+            <div class="checkout-total">
+                <p>小計: <strong class="table-price">¥{{ subtotal|yen }}</strong></p>
+                {% if coupon %}
+                <p>引き券: <strong>{{ coupon }}</strong></p>
+                <p>割引額: <strong class="table-price">¥{{ discount|yen }}</strong></p>
+                <p>割引後合計: <strong class="table-price">¥{{ total|yen }}</strong></p>
+                {% else %}
+                <p>合計金額: <strong class="table-price">¥{{ total|yen }}</strong></p>
+                {% endif %}
+            </div>
+
+            <div class="checkout-total">
+                <form action="{{ url_for('checkout_select_coupon') }}" method="post" class="checkout-coupon-form">
+                    <label for="coupon-select"><strong>引き券利用</strong></label>
+                    <select id="coupon-select" name="coupon" class="form-control">
+                        <option value="" {% if not coupon %}selected{% endif %}>使わない</option>
+                        <option value="5%引き券" {% if coupon == "5%引き券" %}selected{% endif %}>
+                            5%引き券（{{ coupon_5_count }}枚）
+                        </option>
+                        <option value="10%引き券" {% if coupon == "10%引き券" %}selected{% endif %}>
+                            10%引き券（{{ coupon_10_count }}枚）
+                        </option>
+                    </select>
+                    {% if not coupon_available %}
+                    <p class="checkout-coupon-note">引き券は合計金額2,000円以上で利用できます。</p>
+                    {% endif %}
+                    <button type="submit" class="checkout-back-btn">引き券を反映</button>
+                </form>
+            </div>
+
+            <div class="checkout-actions">
+                <a href="{{ url_for('cart') }}" class="checkout-back-btn">前の画面へ戻る</a>
+                <form action="{{ url_for('checkout_confirm') }}" method="post" class="checkout-form">
+                    <button type="submit" class="checkout-btn cart-checkout-btn">購入を確定する</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}

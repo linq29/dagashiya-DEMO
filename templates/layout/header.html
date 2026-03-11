@@ -1,0 +1,99 @@
+<header class="header">
+  <nav class="nav">
+
+    <!-- 左側: ロゴ + ハンバーガー + 検索 -->
+    <div class="nav-left">
+      <a href="{{ url_for('index') }}" class="site-logo">
+        <img src="{{ url_for('static', filename='img/logo.webp') }}" alt="logo">
+      </a>
+
+      <div class="menu-wrapper">
+        <button class="hamburger" aria-label="メニュー" id="menuBtn" type="button">
+          <img src="{{ url_for('static', filename='img/icons-hamb.webp') }}" alt="menu">
+        </button>
+
+        <div class="dropdown-menu" id="dropdownMenu">
+          <ul>
+            <li>
+              <a href="{{ url_for('cart') }}">
+                <img src="{{ url_for('static', filename='img/icons-cart-w.webp') }}">
+                買い物かご
+              </a>
+            </li>
+
+            <li>
+              <a href="{{ url_for('game') }}">
+                <img src="{{ url_for('static', filename='img/icons-game.webp') }}">
+                ミニゲーム
+              </a>
+            </li>
+
+            <li class="wip">
+              <img src="{{ url_for('static', filename='img/icons-info.webp') }}">
+              お知らせ
+            </li>
+
+            <li class="wip">
+              <img src="{{ url_for('static', filename='img/icons-fav.webp') }}">
+              お気に入り
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <form class="search-bar" action="{{ url_for('search_page') }}" method="get">
+        <input type="text" name="q" placeholder="商品を検索" value="{{ q or '' }}">
+        <button class="search-btn" type="submit">
+          <img src="{{ url_for('static', filename='img/icons-search.webp') }}" alt="検索">
+        </button>
+      </form>
+    </div>
+
+    <div class="nav-right">
+      <ul class="nav-links">
+        {% if session.get('user_id') %}
+        <li>
+          <a href="{{ url_for('mypage') }}">
+            <div class="icon"><img
+                src="{{ url_for('static', filename='img/' ~ (session.get('user_icon') or 'icons-login.webp')) }}"></div>
+            <p>{{ session.get('user_name') or 'マイページ' }}
+              {% if gacha_count is not none %}
+              <span class="gacha-status">（わくわく券：<span id="headerGachaCount" data-count="{{ gacha_count }}">{{ gacha_count }}</span> 枚）</span>
+              {% endif %}
+            </p>
+          </a>
+        </li>
+
+        <li>
+          <a href="{{ url_for('logout') }}">
+            <div class="icon"><img src="{{ url_for('static', filename='img/icons-signin.webp') }}"></div>
+            <p>ログアウト</p>
+          </a>
+        </li>
+        {% else %}
+        <li>
+          <a href="{{ url_for('register') }}">
+            <div class="icon"><img src="{{ url_for('static', filename='img/icons-signin.webp') }}"></div>
+            <p>新規登録</p>
+          </a>
+        </li>
+
+        <li>
+          <a href="{{ url_for('login') }}">
+            <div class="icon"><img src="{{ url_for('static', filename='img/icons-login.webp') }}"></div>
+            <p>会員登録</p>
+          </a>
+        </li>
+        {% endif %}
+
+        <li>
+          <a href="{{ url_for('cart') }}">
+            <div class="icon"><img src="{{ url_for('static', filename='img/icons-cart.webp') }}"></div>
+            <p>買い物かご</p>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+  </nav>
+</header>

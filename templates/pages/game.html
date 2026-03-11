@@ -1,0 +1,29 @@
+{% extends "layout/base.html" %}
+
+{% block title %}ミニゲーム | デジタル昭和横丁{% endblock %}
+{% block body_class %}page-game{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/game.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="page-container games">
+
+  <h1 class="games-title">ミニゲーム</h1>
+  <p class="games-lead">遊びたいゲームを選んでください。</p>
+
+  <div class="games-grid">
+    <!-- ガチャ -->
+    <a class="game-card" href="{{ url_for('gacha') }}">
+      <img src="{{ url_for('static', filename='img/game-entrance-gacha.webp') }}" alt="ガチャ">
+    </a>
+
+    <!-- じゃんけん -->
+    <a class="game-card" href="{{ url_for('janken') }}">
+      <img src="{{ url_for('static', filename='img/game-entrance-janken.webp') }}" alt="じゃんけん">
+    </a>
+  </div>
+
+</section>
+{% endblock %}

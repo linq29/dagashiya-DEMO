@@ -1,0 +1,91 @@
+{% extends "layout/base.html" %}
+{% block title %}プライバシーポリシー | デジタル昭和横丁{% endblock %}
+
+{% block content %}
+<section class="page-section info-page">
+    <div class="page-inner">
+
+        <header class="page-heading">
+            <h1 class="page-title" id="privacy-policy">プライバシーポリシー</h1>
+            <p class="page-lead">
+                デジタル昭和横丁における個人情報の取扱い方針について
+            </p>
+        </header>
+
+        <div class="info-card">
+
+            <p class="info-text">
+                デジタル昭和横丁（以下「当店」）は、お客様の個人情報の重要性を深く認識し、
+                以下の方針に基づき、適切かつ慎重に取り扱います。
+            </p>
+
+            <hr class="info-divider">
+
+            <h2 class="info-subtitle">1. 個人情報の定義</h2>
+            <p class="info-text">
+                氏名、住所、電話番号、メールアドレス、注文履歴など、
+                特定の個人を識別できる情報を指します。
+            </p>
+
+            <hr class="info-divider">
+
+            <h2 class="info-subtitle">2. 収集する情報</h2>
+            <p class="info-text">
+                商品の注文、会員登録、お問い合わせなどの際に、
+                サービス提供に必要な範囲で個人情報を収集します。
+            </p>
+
+            <hr class="info-divider">
+
+            <h2 class="info-subtitle">3. 利用目的</h2>
+            <p class="info-text">
+                収集した個人情報は、商品配送、決済処理、注文確認メールの送信、
+                カスタマーサポート対応およびサービス向上の目的で利用します。
+            </p>
+
+            <hr class="info-divider">
+
+            <h2 class="info-subtitle">4. 第三者への提供</h2>
+            <p class="info-text">
+                法令に基づく場合を除き、お客様の同意なく第三者に個人情報を提供することはありません。
+                ただし、配送業者や決済代行業者など、業務上必要な範囲で提供する場合があります。
+            </p>
+
+            <hr class="info-divider">
+
+            <h2 class="info-subtitle">5. 保管および管理</h2>
+            <p class="info-text">
+                個人情報への不正アクセス、紛失、改ざん、漏洩などを防止するため、
+                適切な安全管理措置を講じます。
+            </p>
+
+            <hr class="info-divider">
+
+            <h2 class="info-subtitle">6. Cookie 等の利用</h2>
+            <p class="info-text">
+                サイトの利便性向上や利用状況の分析のため、Cookie 等の技術を使用することがあります。
+                Cookie はブラウザの設定により無効にすることができますが、
+                一部機能が正常に動作しない場合があります。
+            </p>
+
+            <hr class="info-divider">
+
+            <h2 class="info-subtitle">7. ポリシーの変更</h2>
+            <p class="info-text">
+                法令の改正やサービス内容の変更に伴い、
+                本ポリシーを予告なく改定する場合があります。
+                重要な変更がある場合は、当サイト上でお知らせします。
+            </p>
+
+            <hr class="info-divider">
+
+            <h2 class="info-subtitle">8. お問い合わせ</h2>
+            <p class="info-text">
+                個人情報の取扱いに関するお問い合わせは、
+                <a href="{{ url_for('info') }}">お問い合わせページ</a>よりご連絡ください。
+            </p>
+
+        </div>
+    </div>
+</section>
+{% endblock %}

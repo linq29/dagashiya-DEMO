@@ -1,0 +1,104 @@
+{% extends "layout/base.html" %}
+
+{% block title %}マイページ | デジタル昭和横丁{% endblock %}
+
+{% block content %}
+<section class="mypage-section">
+  <div class="mypage-container">
+    <h1 class="mypage-title">マイページ</h1>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+      <div class="flash-messages">
+        {% for message in messages %}
+          <p>{{ message }}</p>
+        {% endfor %}
+      </div>
+      {% endif %}
+    {% endwith %}
+
+    <div class="mypage-grid">
+      <aside class="mypage-left-col">
+        <article class="mypage-card profile-card">
+          <a class="mypage-avatar-link" href="{{ url_for('mypage_icons') }}">
+            <div class="mypage-avatar-wrap">
+              <img
+                class="mypage-avatar"
+                src="{{ url_for('static', filename='img/' ~ (user['user_icon'] or 'icons-login.webp')) }}"
+                alt="選択中アイコン"
+              >
+            </div>
+            <p class="mypage-avatar-help">アイコンを変更する</p>
+          </a>
+          <h2>{{ user['name'] }}さん</h2>
+
+          <div class="mypage-profile-grid" role="table" aria-label="ユーザー情報">
+            <div class="mypage-profile-row" role="row">
+              <div class="mypage-profile-key" role="rowheader">会員ID</div>
+              <div class="mypage-profile-value" role="cell">{{ user['userID'] }}</div>
+            </div>
+            <div class="mypage-profile-row" role="row">
+              <div class="mypage-profile-key" role="rowheader">メール</div>
+              <div class="mypage-profile-value" role="cell">{{ user['email'] }}</div>
+            </div>
+            <div class="mypage-profile-row" role="row">
+              <div class="mypage-profile-key" role="rowheader">電話番号</div>
+              <div class="mypage-profile-value" role="cell">{{ user['phone'] }}</div>
+            </div>
+            <div class="mypage-profile-row" role="row">
+              <div class="mypage-profile-key" role="rowheader">登録日</div>
+              <div class="mypage-profile-value" role="cell">{{ user['created_date'] }}</div>
+            </div>
+            <div class="mypage-profile-row" role="row">
+              <div class="mypage-profile-key" role="rowheader">注文回数</div>
+              <div class="mypage-profile-value" role="cell">{{ order_count }} 回</div>
+            </div>
+            <div class="mypage-profile-row" role="row">
+              <div class="mypage-profile-key" role="rowheader">わくわく券</div>
+              <div class="mypage-profile-value" role="cell">{{ user['gacha_count'] }} 枚</div>
+            </div>
+            <div class="mypage-profile-row" role="row">
+              <div class="mypage-profile-key" role="rowheader">5%引き券</div>
+              <div class="mypage-profile-value" role="cell">{{ user['coupon_5_count'] }} 枚</div>
+            </div>
+            <div class="mypage-profile-row" role="row">
+              <div class="mypage-profile-key" role="rowheader">10%引き券</div>
+              <div class="mypage-profile-value" role="cell">{{ user['coupon_10_count'] }} 枚</div>
+            </div>
+          </div>
+        </article>
+      </aside>
+
+      <article class="mypage-card">
+        <h2 class="admin-subtitle">購入履歴</h2>
+        {% if order_history %}
+        <div class="table-wrap">
+          <table class="admin-table mypage-table">
+            <thead>
+              <tr>
+                <th>注文番号</th>
+                <th>日付</th>
+                <th>商品数</th>
+                <th class="table-price">合計金額</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for order in order_history %}
+              <tr>
+                <td>#{{ order['orderID'] }}</td>
+                <td>{{ order['ordered_date'] }}</td>
+                <td>{{ order['item_count'] }}</td>
+                <td class="table-price">¥{{ order['total']|yen }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% else %}
+        <p>購入履歴はまだありません。</p>
+        {% endif %}
+      </article>
+    </div>
+  </div>
+</section>
+{% endblock %}

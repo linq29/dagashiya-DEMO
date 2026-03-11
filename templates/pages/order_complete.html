@@ -1,0 +1,24 @@
+{% extends "layout/base.html" %}
+
+{% block title %}注文完了 | デジタル昭和横丁{% endblock %}
+
+{% block content %}
+
+<div class="order-complete-container">
+
+    <h2 class="order-title">ご注文が完了しました</h2>
+
+    <p class="order-message">
+        ご購入ありがとうございます。注文内容をメールにてお送りしました。
+    </p>
+
+    <div class="order-summary-box">
+        <p><strong>注文番号:</strong> {{ order_id }}</p>
+        <p><strong>合計金額:</strong> ¥{{ total|yen }}</p>
+    </div>
+    <a href="{{ url_for('game') }}" class="order-home-btn">ゲームを遊びに行く</a>
+    <a href="{{ url_for('index') }}" class="order-home-btn">トップページへ戻る</a>
+
+</div>
+
+{% endblock %}

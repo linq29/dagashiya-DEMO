@@ -1,0 +1,59 @@
+{% extends "layout/base.html" %}
+
+{% block title %}ガチャ | デジタル昭和横丁{% endblock %}
+{% block body_class %}page-game-gacha{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/game.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="game-wrapper">
+    <div class="gacha-stage">
+        <img class="machine" src="{{ url_for('static', filename='img/game-gacha/gachagacha.webp') }}"
+            alt="gacha machine" />
+
+        <img class="coin" src="{{ url_for('static', filename='img/game-gacha/money.webp') }}" alt="coin" />
+    </div>
+
+    <button id="gachaStart" class="gacha-button">スタート！</button>
+</div>
+
+<div id="gachaModal" class="modal" aria-hidden="true">
+    <div class="modal__backdrop"></div>
+
+    <div class="modal__panel" role="dialog" aria-modal="true">
+        <img id="capsuleImg" class="capsule-img" src="" alt="gacha capsule" />
+
+        <p id="resultText" class="result-text"></p>
+
+        <button id="closeModal" class="modal__close">オッケー</button>
+    </div>
+</div>
+
+<div id="gachaConfirmModal" class="modal" aria-hidden="true">
+    <div class="modal__backdrop"></div>
+    <div class="modal__panel" role="dialog" aria-modal="true">
+        <p id="gachaConfirmText" class="result-text">わくわく券を一枚消費して遊びますか？</p>
+        <button id="gachaConfirmOk" class="modal__close">はい</button>
+        <button id="gachaConfirmCancel" class="modal__close">キャンセル</button>
+    </div>
+</div>
+
+<div id="gachaNoticeModal" class="modal" aria-hidden="true">
+    <div class="modal__backdrop"></div>
+    <div class="modal__panel" role="dialog" aria-modal="true">
+        <p id="gachaNoticeText" class="result-text"></p>
+        <button id="gachaNoticeOk" class="modal__close">オッケー</button>
+    </div>
+</div>
+
+<div id="gacha-assets" data-capsule-gold="{{ url_for('static', filename='img/game-gacha/gold.webp') }}"
+    data-capsule-blue="{{ url_for('static', filename='img/game-gacha/blue.webp') }}"
+    data-capsule-red="{{ url_for('static', filename='img/game-gacha/red.webp') }}"></div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/game/gacha.js') }}"></script>
+{% endblock %}

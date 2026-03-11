@@ -1,0 +1,1819 @@
+/********************************************************************
+ *  0. リセット・基本設定
+ ********************************************************************/
+@charset "utf-8";
+
+/* 共通リセット */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  transition: 0.3s;
+}
+
+html,
+body {
+  overflow-x: hidden;
+}
+
+a {
+  text-decoration: none;
+}
+
+p {
+  margin: 1.25rem 0;
+}
+
+ul,
+ol {
+  list-style: none;
+  padding: 0;
+}
+
+::selection {
+  background: var(--color-heading-accent);
+  color: var(--color-white);
+}
+
+/* カラーテーマ・変数 */
+:root {
+  --main-color: #fff;
+  --main: #990e0e;
+  --accent: #ffd83a;
+  --color-white: #fefefe;
+  --color-black: #000;
+  --color-ink: #333;
+  --color-bg: #b57c57;
+  --color-heading-accent: #bb1616;
+  --surface-dark: #333;
+  --surface-link: #ccc;
+  --surface-muted: #757575;
+  --danger: #d9534f;
+  --glass-light-10: rgba(255, 255, 255, 0.2);
+  --glass-light-12: rgba(255, 255, 255, 0.22);
+  --glass-light-15: rgba(255, 255, 255, 0.25);
+  --glass-light-18: rgba(255, 255, 255, 0.28);
+  --glass-light-20: rgba(255, 255, 255, 0.3);
+  --glass-dark-12: rgba(0, 0, 0, 0.12);
+  --max-width: 1200px;
+  --text-shadow-emphasis: 0 2px 8px rgba(139, 69, 19, 0.65);
+  --products-shadow: drop-shadow(0 8px 14px rgba(139, 69, 19, 0.50));
+  --products-shadow-hover: drop-shadow(0 12px 20px rgba(139, 69, 19, 0.35));
+}
+.modal {
+  text-shadow: none;
+}
+
+/* =========================================================
+   背景：固定画像
+========================================================= */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  /* background-image: url("../img/bg.webp"); */
+  background-image: url("../img/bg-store.webp");
+  background-color: var(--color-bg);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  background-attachment: fixed;
+
+  color: var(--color-white);
+  text-shadow: var(--text-shadow-emphasis);
+  font-family: "Zen Maru Gothic", sans-serif;
+  font-weight: 500;
+  min-width: 320px;
+}
+
+img[src*="/img/products/"][src$=".png"],
+img[src*="/img/products/"][src*=".png?"],
+img[src*="/img/products/"][src$=".jpg"],
+img[src*="/img/products/"][src*=".jpg?"],
+img[src*="/img/products/"][src$=".jpeg"],
+img[src*="/img/products/"][src*=".jpeg?"],
+img[src*="/img/products/"][src$=".webp"],
+img[src*="/img/products/"][src*=".webp?"] {
+  filter: var(--products-shadow);
+}
+
+img[src*="/img/products/"][src$=".png"]:hover,
+img[src*="/img/products/"][src*=".png?"]:hover,
+img[src*="/img/products/"][src$=".jpg"]:hover,
+img[src*="/img/products/"][src*=".jpg?"]:hover,
+img[src*="/img/products/"][src$=".jpeg"]:hover,
+img[src*="/img/products/"][src*=".jpeg?"]:hover,
+img[src*="/img/products/"][src$=".webp"]:hover,
+img[src*="/img/products/"][src*=".webp?"]:hover {
+  filter: var(--products-shadow-hover);
+}
+
+main {
+  flex: 1 0 auto;
+  padding: 1rem 0 2rem 0;
+}
+
+h1,
+h2 {
+  font-family: "Zen Kaku Gothic Antique", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+  letter-spacing: -1px;
+  margin: 2rem auto 1rem auto;
+  text-shadow: none;
+}
+h1#privacy-policy{
+  font-size: 1.2rem;
+}
+h2.order-title {
+  text-shadow: var(--text-shadow-emphasis);
+}
+
+/* =========================================================
+   H1 見出し背景（画像を完整表示＆中央揃え）
+========================================================= */
+main h1 {
+  filter: saturate(1.2);
+  background-image: url("../img/bg-heading.webp");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+
+  font-size: 2.2rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 130px;
+  padding: 1rem 2rem 1.2rem 2rem;
+  margin: 2rem auto 1.5rem auto;
+
+  color: var(--color-heading-accent);
+  text-align: center;
+}
+
+.add-cart-btn,
+.cart-btn,
+.checkout-btn,
+.login-btn,
+.order-home-btn,
+.auth-btn,
+.admin-save-btn {
+  background: var(--accent);
+  color: var(--color-ink);
+  text-shadow: none;
+}
+
+.cart-item,
+.checkout-table,
+.auth-container,
+.admin-table,
+.admin-form {
+  background: var(--glass-light-10);
+}
+
+/* =========================================================
+   Enter View Animation (main content only)
+========================================================= */
+.enter-up-on-view {
+  opacity: 0;
+  transform: translateY(15px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  will-change: opacity, transform;
+}
+
+.enter-up-on-view.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .enter-up-on-view {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+
+
+/********************************************************************
+ * 1. ヘッダー（ヘッダー＆ナビゲーション）
+ ********************************************************************/
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 9990;
+
+  background-color: var(--surface-dark);
+  padding: 0.35rem 0.8rem;
+  overflow: visible;
+}
+
+/* テクスチャ */
+.header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+
+  background:
+    repeating-linear-gradient(90deg,
+      rgba(255, 255, 255, 0.015) 0px,
+      rgba(255, 255, 255, 0.015) 2px,
+      rgba(0, 0, 0, 0.015) 3px,
+      rgba(0, 0, 0, 0.015) 6px),
+    repeating-linear-gradient(0deg,
+      rgba(255, 255, 255, 0.01) 0px,
+      rgba(255, 255, 255, 0.01) 1px,
+      rgba(0, 0, 0, 0.01) 2px,
+      rgba(0, 0, 0, 0.01) 4px),
+    radial-gradient(circle at 20% 30%,
+      rgba(255, 255, 255, 0.025),
+      rgba(0, 0, 0, 0) 45%),
+    radial-gradient(circle at 70% 60%,
+      rgba(0, 0, 0, 0.04),
+      rgba(0, 0, 0, 0) 55%);
+  opacity: 0.7;
+}
+
+.nav {
+  position: relative;
+  z-index: 1;
+
+  margin: 0 auto;
+  display: flex;
+  padding: 0 2rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0 0.8rem;
+  width: 100%;
+}
+
+.gacha-status {
+  font-size: 0.6em;
+}
+
+/* 左側・右側エリア */
+.nav-left,
+.nav-right {
+  display: flex;
+  align-items: center;
+}
+
+.nav-left {
+  gap: 0.6rem;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.nav-right {
+  flex: 0 0 auto;
+}
+
+/* ロゴ */
+.site-logo {
+  display: flex;
+  align-items: center;
+}
+
+.site-logo img {
+  height: 34px;
+  width: auto;
+  cursor: pointer;
+}
+
+/* メニューラッパー + ハンバーガー */
+.menu-wrapper {
+  position: relative;
+  z-index: 10020;
+}
+
+.hamburger {
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  z-index: 10030;
+  pointer-events: auto;
+  padding: 0.15rem;
+}
+
+.hamburger img {
+  height: 20px;
+  width: auto;
+  display: block;
+}
+
+/* 検索バー */
+.search-bar {
+  flex: 1 1 auto;
+  min-width: 220px;
+  max-width: 520px;
+
+  display: flex;
+  align-items: center;
+  border-radius: 18px;
+  overflow: hidden;
+  background: var(--color-white);
+}
+
+.search-bar input {
+  flex: 1;
+  border: none;
+  padding: 0.45rem 0.9rem;
+  min-width: 0;
+}
+
+.search-btn {
+  background: transparent;
+  border: none;
+  padding: 0.35rem 0.6rem;
+  cursor: pointer;
+}
+
+.search-btn img {
+  height: 1.3em;
+}
+
+/* 右側リンク */
+.nav-links {
+  display: flex;
+  gap: 1.2rem;
+}
+
+.nav-links a {
+  color: var(--main-color);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.nav-links a:hover {
+  color: var(--accent);
+}
+
+.icon img {
+  height: 1.5rem;
+}
+
+/* ドロップダウンメニュー */
+/* .dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 200px;
+  height: 300px;
+
+  background: rgba(33, 62, 102, 0.9);
+  border: 2px solid white;
+
+  display: none;
+  flex-direction: column;
+
+  padding: 0.5rem;
+  z-index: 10040;
+
+  font-size: 1.1em;
+} */
+
+/* ドロップダウンメニュー（フェード + 均等配置） */
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 200px;
+
+  background: rgba(33, 62, 102, 0.9);
+  border: 2px solid white;
+
+  /* フェードイン/アウト */
+  opacity: 0;
+  transform: translateY(-6px);
+  pointer-events: none;
+  visibility: hidden; /* 非表示時はクリック・フォーカス不可 */
+
+  transition: opacity 200ms ease, transform 200ms ease, visibility 0s linear 200ms;
+
+  /* アニメーションのためレイアウト上に保持 */
+  display: block;
+
+  padding: 0.5rem;
+  z-index: 10040;
+  font-size: 1.1em;
+
+  /* 任意: パネルらしさを強調 */
+  border-radius: 6px;
+}
+
+.dropdown-menu.is-open {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+  visibility: visible;
+  transition: opacity 200ms ease, transform 200ms ease, visibility 0s;
+}
+
+/* リストの初期化 */
+.dropdown-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  /* 高さ制御で項目を見た目上均等化 */
+  height: 260px; /* 必要に応じて調整（固定高さ不要なら削除可） */
+}
+
+/* 各項目が利用可能な高さを均等に使用 */
+.dropdown-menu ul li {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+
+  padding: 0 1rem;
+  border-radius: 4px;
+}
+
+/* リンクをli全体に広げてホバー/クリック感を統一 */
+.dropdown-menu ul li a {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+
+  color: var(--color-white);
+  text-decoration: none;
+
+  /* 縦方向余白はここで管理（均等高さを維持） */
+  height: 100%;
+}
+
+/* アイコン */
+.dropdown-menu img {
+  width: 30px;
+  height: 30px;
+  flex: 0 0 30px;
+}
+
+/* ホバー */
+.dropdown-menu ul li:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+
+/* .wip {
+  color: #999;
+} */
+
+
+
+/********************************************************************
+ *  3. メインビジュアル
+ ********************************************************************/
+.main-visual {
+  width: 100%;
+}
+
+.main-visual img {
+  width: 100%;
+  display: block;
+}
+
+.wave-noren {
+  transform-origin: center top;
+  will-change: transform;
+  transition: none;
+}
+
+.main-visual-bar {
+  width: 100%;
+  display: block;
+}
+
+.main-visual-bar img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+
+
+/********************************************************************
+ *  4. バナー（カルーセル） 画面幅50%
+ ********************************************************************/
+.banner-area {
+  width: 100%;
+  overflow: hidden;
+  /* ビューポート外への溢れ出しを防止 */
+  margin: 3rem 0;
+}
+
+.carousel {
+  width: 100%;
+}
+
+.banner-track {
+  display: flex;
+  flex-wrap: nowrap;
+  width: max-content;
+  /* コンテンツに応じて総幅を決定 */
+  gap: 1rem;
+  padding: 0 0.5rem;
+  animation: banner-scroll 24s linear infinite;
+  will-change: transform;
+}
+
+/* 各バナー：画面幅の50%を占有 */
+.banner {
+  flex: 0 0 50vw;
+  /* 画面幅50%で固定 */
+  width: 50vw;
+  height: 400px;
+  /* 必要に応じて可変サイズ指定へ変更可能 */
+  object-fit: cover;
+  border-radius: 1rem;
+  display: block;
+}
+
+.banner-area:hover .banner-track {
+  animation-play-state: paused;
+}
+
+/* シームレスループの鍵：最初の3枚分の幅 ＋ gap分を移動させる */
+@keyframes banner-scroll {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(calc(-1 * (3 * 50vw + 3 * 1rem)));
+  }
+}
+
+/* モバイル用設定：1枚表示に調整 */
+@media (max-width: 768px) {
+  .banner {
+    flex-basis: 90vw;
+    width: 90vw;
+    height: 260px;
+  }
+
+  @keyframes banner-scroll {
+    from {
+      transform: translateX(0);
+    }
+
+    to {
+      transform: translateX(calc(-1 * (3 * 90vw + 3 * 1rem)));
+    }
+  }
+}
+
+
+/********************************************************************
+ *  5. トップページ商品一覧
+ ********************************************************************/
+.items-area {
+  max-width: 1200px;
+  margin: 2rem auto;
+  text-align: center;
+  padding: 0 1rem;
+}
+
+.items-area h2 {
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+}
+
+.items-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 2rem;
+}
+
+.recommendation-area .items-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.item-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  text-align: center;
+  color: var(--color-ink);
+}
+
+.item-card img {
+  width: 100%;
+  object-fit: cover;
+  /* border: 8px solid var(--main);
+  outline: 8px solid var(--accent); */
+  outline-offset: -8px;
+}
+
+.item-card img:hover {
+  filter: saturate(1.3) var(--products-shadow-hover);
+  transform: translateY(-4px);
+}
+
+.item-card p {
+  line-height: 1.5rem;
+  padding: 0;
+  margin: 0;
+}
+
+.item-desc {
+  color: var(--color-white);
+  font-size: 1.25rem;
+  margin: 2rem 0 1rem 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.item-price {
+  color: var(--accent);
+  font-size: 1.25rem;
+  font-weight: 500;
+  margin: 1rem 0;
+}
+
+.price-tax {
+  font-size: 0.7em;
+}
+
+@media (max-width: 1200px) {
+  .items-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .items-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+
+
+/********************************************************************
+ *  6. 商品詳細ページ
+ ********************************************************************/
+.breadcrumb {
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.breadcrumb a {
+  color: var(--color-white);
+}
+
+.product-page {
+  display: flex;
+  gap: 3rem;
+  max-width: 960px;
+  margin: 4rem auto;
+}
+
+.product-image img {
+  width: 420px;
+  border-radius: 10px;
+  display: block;
+}
+
+.product-info {
+  flex: 1;
+}
+
+.product-title-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+}
+
+.product-title {
+  font-size: 2rem;
+  margin: 0;
+}
+
+.product-country {
+  border: 1px solid white;
+  border-radius: 1rem;
+  padding: 0.2em 1em;
+  margin: 0;
+  font-size: 0.8rem;
+  opacity: 0.9;
+}
+
+.product-price {
+  font-size: 1.5rem;
+  color: var(--accent);
+}
+
+.product-desc {
+  margin: 3rem auto;
+  line-height: 1.7;
+}
+
+.add-cart-btn {
+  margin-top: 1.5rem;
+  padding: 0.8rem 1.2rem;
+  border: none;
+  font-size: 1.1rem;
+  font-weight: 500;
+  border-radius: 8px;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.quantity-label {
+  display: inline-block;
+  margin-top: 0.3rem;
+  margin-right: 0.6rem;
+}
+
+.quantity-stepper {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem;
+  border-radius: 999px;
+  background: var(--glass-dark-12);
+}
+
+.qty-btn {
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--color-ink);
+  font-weight: 700;
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.qty-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.quantity-input {
+  width: 64px;
+  height: 32px;
+  text-align: center;
+  border: 1px solid var(--glass-light-20);
+  border-radius: 8px;
+  background: var(--color-white);
+  color: var(--color-ink);
+  font-weight: 700;
+}
+
+.quantity-input::-webkit-outer-spin-button,
+.quantity-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.quantity-input[type="number"] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+.quantity-feedback {
+  margin: 0.35rem 0 0;
+  font-size: 0.85rem;
+  min-height: 1.1em;
+  color: var(--accent);
+}
+
+.add-cart-btn img {
+  width: 28px;
+  height: auto;
+  display: block;
+}
+
+
+
+/********************************************************************
+ *  7. カートページ
+ ********************************************************************/
+.cart-container {
+  max-width: 940px;
+  margin: 0 auto;
+}
+
+.cart-title {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.cart-item {
+  display: flex;
+  gap: 1.2rem;
+  padding: 1.1rem;
+  border-radius: 12px;
+  margin-bottom: 1.1rem;
+  border: 1px solid var(--glass-light-20);
+}
+
+.cart-image img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.cart-info {
+  flex: 1;
+}
+
+.cart-name {
+  margin-bottom: 0.35rem;
+}
+
+.cart-price {
+  color: var(--accent);
+  font-size: 1.2rem;
+  margin: 0.25rem 0;
+}
+
+.cart-stock {
+  margin: 0.2rem 0 0;
+  font-size: 0.92rem;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.cart-actions {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin: 0.7rem 0 0.4rem 0;
+}
+
+.cart-quantity-form {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.cart-btn {
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.cart-btn.delete {
+  background: var(--danger);
+  color: var(--color-white);
+}
+
+.cart-btn:hover {
+  filter: brightness(0.9);
+}
+
+.cart-subtotal {
+  margin-top: 0.6rem;
+  font-weight: bold;
+}
+
+.cart-total {
+  margin-top: 1.5rem;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+.cart-checkout-btn {
+  display: inline-flex;
+  align-items: center;
+  font-size: 1rem;
+  justify-content: center;
+}
+
+.checkout-btn,
+.login-btn {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.7rem 1.4rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+button.checkout-btn {
+  border: none;
+}
+
+
+
+/********************************************************************
+ *  8. 購入確認ページ
+ ********************************************************************/
+.checkout-container {
+  max-width: 940px;
+  margin: 0 auto;
+}
+
+.checkout-lead {
+  text-align: center;
+  margin: 0.25rem 0 1.5rem;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.checkout-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--glass-light-20);
+}
+
+.checkout-table th {
+  background: var(--glass-light-15);
+  padding: 0.8rem;
+}
+
+.checkout-table td {
+  padding: 0.8rem;
+  border-bottom: 1px solid var(--glass-light-20);
+  vertical-align: middle;
+}
+
+.checkout-product-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.checkout-product-cell img {
+  width: 52px;
+  height: 52px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.checkout-item-total {
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.checkout-total {
+  margin-top: 1rem;
+  padding: 1rem 1.2rem;
+  border-radius: 12px;
+  background: var(--glass-light-10);
+  border: 1px solid var(--glass-light-20);
+}
+
+.checkout-actions {
+  margin-top: 1.3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.checkout-actions .checkout-form {
+  margin: 0;
+}
+
+.checkout-actions .checkout-btn,
+.checkout-back-btn {
+  margin-top: 0;
+  padding: 0.8rem 1.6rem;
+  border-radius: 8px;
+  min-width: 180px;
+  text-align: center;
+}
+
+.checkout-back-btn {
+  display: inline-block;
+  color: var(--color-white);
+  border: 1px solid var(--glass-light-20);
+  background: var(--glass-dark-12);
+}
+
+.table-price {
+  text-align: right;
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .cart-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .cart-image img {
+    width: 100%;
+    max-width: 240px;
+    height: auto;
+  }
+
+  .checkout-table th,
+  .checkout-table td {
+    font-size: 0.9rem;
+    padding: 0.6rem;
+  }
+
+  .checkout-product-cell img {
+    width: 42px;
+    height: 42px;
+  }
+
+  .checkout-actions {
+    flex-direction: column;
+  }
+
+  .checkout-actions .checkout-btn,
+  .checkout-back-btn {
+    width: 100%;
+  }
+}
+
+
+
+/********************************************************************
+ *  9. 購入完了ページ
+ ********************************************************************/
+.order-complete-container {
+  max-width: 600px;
+  margin: 3rem auto;
+  text-align: center;
+}
+
+.order-summary-box {
+  background: rgba(255, 255, 255, 0.12);
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  padding: 1.2rem;
+  border-radius: 10px;
+  margin: 1.5rem 0;
+}
+
+.order-home-btn {
+  padding: 0.8rem 1.6rem;
+  border-radius: 8px;
+}
+
+
+
+/********************************************************************
+ * 10. 認証（ログイン・新規登録）
+ ********************************************************************/
+.auth-container {
+  max-width: 420px;
+  margin: 3rem auto;
+  text-align: center;
+  border-radius: 12px;
+  padding: 2rem;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.auth-form input {
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  border: none;
+}
+
+.auth-btn {
+  padding: 0.7rem;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.flash-messages {
+  margin-bottom: 1rem;
+  background: rgba(255, 100, 100, 0.2);
+  padding: 0.5rem 1rem;
+  font-family: "Zen Kaku Gothic Antique", sans-serif;
+  font-weight: 400;
+}
+
+
+
+/********************************************************************
+ * 11. 管理画面
+ ********************************************************************/
+.admin-container {
+  max-width: 1000px;
+  margin: 2rem auto;
+}
+
+.admin-title {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.admin-table th {
+  background: var(--glass-light-20);
+  text-align: center;
+  padding: 0.8rem auto;
+}
+
+.admin-table td {
+  padding: 0.8rem;
+  border-bottom: 1px solid var(--glass-light-20);
+}
+
+.admin-thumb {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+}
+
+.admin-form {
+  max-width: 700px;
+  margin: 1rem auto;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.admin-save-btn {
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.admin-back-btn {
+  background: var(--surface-muted);
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  color: var(--color-white);
+}
+
+
+
+/********************************************************************
+ * 13. フッター
+ ********************************************************************/
+.footer {
+  position: relative;
+  margin-top: auto;
+  background-color: var(--surface-dark);
+  color: var(--color-white);
+  font-size: 0.8rem;
+  overflow: hidden;
+}
+
+/* =========================
+   テクスチャ層
+========================= */
+.footer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+
+  background:
+    repeating-linear-gradient(90deg,
+      rgba(255, 255, 255, 0.015) 0px,
+      rgba(255, 255, 255, 0.015) 2px,
+      rgba(0, 0, 0, 0.015) 3px,
+      rgba(0, 0, 0, 0.015) 6px),
+    repeating-linear-gradient(0deg,
+      rgba(255, 255, 255, 0.01) 0px,
+      rgba(255, 255, 255, 0.01) 1px,
+      rgba(0, 0, 0, 0.01) 2px,
+      rgba(0, 0, 0, 0.01) 4px),
+    radial-gradient(circle at 20% 30%,
+      rgba(255, 255, 255, 0.025),
+      rgba(0, 0, 0, 0) 45%),
+    radial-gradient(circle at 70% 60%,
+      rgba(0, 0, 0, 0.04),
+      rgba(0, 0, 0, 0) 55%);
+
+  opacity: 0.7;
+}
+
+/* =========================
+   フッター・コンテンツコンテナ
+========================= */
+.footer-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 3rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+/* 3カラム均等配置 */
+.footer-col {
+  flex: 1;
+}
+
+.footer-col h4 {
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.footer-col ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-col li+li {
+  margin-top: 0.4rem;
+}
+
+.footer-col a {
+  color: var(--surface-link);
+  text-decoration: none;
+}
+
+.footer-col a:hover {
+  color: var(--accent);
+}
+
+/* =========================
+   レスポンシブ設定
+========================= */
+@media (max-width: 768px) {
+  .footer-inner {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+
+/* =========================
+   Footer link pages (info/refund/about/etc)
+========================= */
+
+.page-section {
+  width: 100%;
+  padding: 2.5rem 0 3.5rem;
+}
+
+.page-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.page-heading {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.page-title {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--main);
+
+  background-image: url("../img/bg-heading.webp");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  min-height: 92px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.page-lead {
+  margin: 0.75rem auto 0;
+  max-width: 60ch;
+  color: var(--color-white);
+  opacity: 0.95;
+}
+
+.info-card {
+  margin: 1.5rem auto 0;
+  max-width: 900px;
+  background: rgba(255, 255, 255, 0.25);
+  border: 2px solid rgba(255, 255, 255, 0.18);
+  border-radius: 14px;
+  padding: 1.5rem;
+  backdrop-filter: blur(2px);
+}
+
+.info-subtitle {
+  margin: 0 0 0.75rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--main);
+  /* メインカラー */
+}
+
+.info-text {
+  margin: 0;
+  line-height: 1.8;
+}
+
+.info-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.info-list li {
+  display: grid;
+  grid-template-columns: 92px 1fr;
+  gap: 0.75rem;
+  align-items: start;
+  padding: 0.75rem;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.12);
+}
+
+.info-label {
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.info-value {
+  color: var(--color-white);
+}
+
+.info-divider {
+  border: none;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.18);
+  margin: 1.25rem 0;
+}
+
+.text-link {
+  color: var(--accent);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.text-link:hover {
+  filter: brightness(1.05);
+  text-decoration: underline;
+}
+
+/* モバイル */
+@media (max-width: 768px) {
+  .page-title {
+    font-size: 1.6rem;
+    min-height: 82px;
+  }
+
+  .info-list li {
+    grid-template-columns: 1fr;
+  }
+
+  .info-label {
+    display: inline-block;
+  }
+}
+
+
+/* =========================
+   管理 / フォーム（商品追加）
+========================= */
+
+.admin-page .admin-card {
+  max-width: 860px;
+  margin: 0 auto;
+  background: rgba(0,0,0,0.20);
+  border: 2px solid rgba(255,255,255,0.18);
+  border-radius: 16px;
+  padding: 1.4rem;
+}
+
+.admin-form {
+  margin-top: 0.25rem;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.form-field--full {
+  grid-column: 1 / -1;
+}
+
+.form-label {
+  display: block;
+  font-weight: 700;
+  margin: 0 0 0.4rem 0;
+  color: var(--accent);
+  letter-spacing: 0.02em;
+}
+
+.form-control {
+  width: 100%;
+  background: rgba(255,255,255,0.10);
+  border: 2px solid rgba(255,255,255,0.16);
+  border-radius: 12px;
+  padding: 0.8rem 0.9rem;
+  color: var(--color-white);
+  outline: none;
+}
+
+.form-control::placeholder {
+  color: rgba(255,255,255,0.55);
+}
+
+.form-control:focus {
+  border-color: rgba(255,216,58,0.75);
+  box-shadow: 0 0 0 3px rgba(255,216,58,0.18);
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 140px;
+}
+
+.form-file {
+  padding: 0.55rem 0.7rem;
+}
+
+.file-row {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.form-help {
+  margin: 0;
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+/* 操作ボタン */
+.form-actions {
+  display: flex;
+  gap: 0.8rem;
+  justify-content: flex-end;
+  margin-top: 1.2rem;
+  flex-wrap: wrap;
+}
+
+/* ボタン（統一スタイル） */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 12px;
+  padding: 0.75rem 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  border: none;
+}
+
+.btn-primary {
+  background: var(--accent); /* #ffd83a */
+  color: var(--color-ink);
+}
+
+.btn-primary:hover {
+  filter: brightness(1.05);
+  transform: translateY(-1px);
+}
+
+.btn-ghost {
+  background: rgba(255,255,255,0.10);
+  color: var(--color-white);
+  border: 2px solid rgba(255,255,255,0.18);
+}
+
+.btn-ghost:hover {
+  background: rgba(255,255,255,0.16);
+}
+
+/* レスポンシブ */
+@media (max-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+
+/********************************************************************
+ * 14. マイページ
+ ********************************************************************/
+.mypage-section {
+  padding: 2.5rem 0 3.5rem;
+}
+
+.mypage-container {
+  max-width: 1000px;
+  width: min(1000px, calc(100% - 2rem));
+  margin: 0 auto;
+}
+
+.mypage-title {
+  text-align: center;
+}
+
+.mypage-grid {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.mypage-card {
+  background: var(--glass-light-12);
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  border-radius: 12px;
+  padding: 1.2rem;
+}
+
+.profile-card {
+  text-align: center;
+}
+
+.mypage-left-col {
+  position: sticky;
+  top: 1rem;
+}
+
+.mypage-avatar-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.mypage-avatar-wrap {
+  width: 96px;
+  height: 96px;
+  margin: 0 auto 1rem;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mypage-avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.mypage-avatar-help {
+  margin: 0 0 1rem;
+  font-size: 0.9rem;
+  color: var(--accent);
+}
+
+.mypage-profile-table-wrap {
+  margin-top: 0.8rem;
+}
+
+.mypage-profile-grid {
+  margin-top: 0.8rem;
+  display: grid;
+  gap: 0;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.mypage-profile-row {
+  display: grid;
+  grid-template-columns: 110px minmax(0, 1fr);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.mypage-profile-row:first-child {
+  border-top: none;
+}
+
+.mypage-profile-key,
+.mypage-profile-value {
+  padding: 0.7rem 0.75rem;
+  text-align: left;
+  min-width: 0;
+}
+
+.mypage-profile-key {
+  background: rgba(255, 255, 255, 0.08);
+  font-weight: 700;
+}
+
+.mypage-profile-value {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.mypage-table {
+  width: 100%;
+  min-width: 0;
+  table-layout: auto;
+}
+
+.mypage-table th,
+.mypage-table td {
+  width: auto;
+  white-space: normal;
+  word-break: break-word;
+}
+
+.icon-choice-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(80px, 1fr));
+  gap: 0.8rem;
+  margin: 1rem 0 1.2rem;
+}
+
+.icon-choice {
+  border: 2px solid transparent;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 0.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.icon-choice input {
+  display: none;
+}
+
+.icon-choice img {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+}
+
+.icon-choice:has(input:checked) {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(255, 216, 58, 0.25);
+}
+
+.mypage-icon-container {
+  max-width: 760px;
+}
+
+.mypage-icon-actions {
+  display: flex;
+  gap: 0.8rem;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.mypage-icon-actions .checkout-btn {
+  margin-top: 0;
+  padding: 0.8rem 1.6rem;
+  border-radius: 8px;
+  min-width: 180px;
+  text-align: center;
+}
+
+.checkout-coupon-form {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.checkout-coupon-note {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--accent);
+}
+
+@media (max-width: 768px) {
+  .mypage-grid {
+    grid-template-columns: 1fr;
+  }
+  .mypage-left-col {
+    position: static;
+  }
+  .mypage-profile-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================
+   ADMIN STOCK TABLE
+========================= */
+
+.admin-subtitle {
+  margin: 0 0 1rem 0;
+  font-size: 1.2rem;
+  color: var(--accent);
+  letter-spacing: 0.02em;
+}
+
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 14px;
+  border: 2px solid rgba(255,255,255,0.14);
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 760px;
+  background: rgba(0,0,0,0.12);
+}
+
+.admin-table thead th {
+  text-align: left;
+  padding: 0.9rem 0.9rem;
+  background: rgba(255,255,255,0.10);
+  color: var(--color-white);
+  font-weight: 700;
+  position: sticky;
+  top: 0;
+}
+
+.admin-table tbody td {
+  padding: 0.85rem 0.9rem;
+  border-top: 1px solid rgba(255,255,255,0.10);
+  vertical-align: middle;
+}
+
+.admin-table tbody tr:hover {
+  background: rgba(255,255,255,0.06);
+}
+
+.cell-name {
+  font-weight: 700;
+}
+
+/* 列幅設定 */
+.col-id { width: 70px; }
+.col-price { width: 130px; }
+.col-stock { width: 180px; }
+.col-action { width: 110px; }
+
+/* 小さめ入力欄 */
+.form-control--small {
+  padding: 0.55rem 0.65rem;
+  border-radius: 10px;
+}
+
+/* 在庫フォーム（横並び） */
+.stock-form {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+/* ボタンサイズ */
+.btn-sm {
+  padding: 0.55rem 0.9rem;
+  border-radius: 10px;
+  font-weight: 700;
+}
+
+/* 警告ボタン（危険操作） */
+.btn-danger {
+  background: var(--main); /* #bb1616 */
+  color: var(--color-white);
+}
+
+.btn-danger:hover {
+  filter: brightness(1.05);
+  transform: translateY(-1px);
+}
+
+.admin-note {
+  text-align: right;
+  margin: 1rem 0 0 0;
+  font-size: 0.9rem;
+  opacity: 0.92;
+}
