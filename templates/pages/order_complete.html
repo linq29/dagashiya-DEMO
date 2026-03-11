@@ -22,3 +22,7 @@
 </div>
 
 {% endblock %}
+{% block scripts %}
+<!-- ここで外部スクリプトを読み込む -->
+<script src="{{ url_for('static', filename='js/game/game-gacha-canvas.js') }}"></script>
+{% endblock %}

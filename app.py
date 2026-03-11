@@ -34,6 +34,7 @@ def yen_filter(value):
 
 COUPON_5 = "5%引き券"
 COUPON_10 = "10%引き券"
+DEFAULT_USER_ICON = "user-icons/user-icon3.webp"
 # クーポン名称は DB / セッション / フロント間で同じ文字列を使う
 
 
@@ -162,7 +163,7 @@ def init_db():
     }
     if "user_icon" not in user_columns:
         conn.execute(
-            "ALTER TABLE users ADD COLUMN user_icon TEXT DEFAULT 'icons-login.webp'"
+            f"ALTER TABLE users ADD COLUMN user_icon TEXT DEFAULT '{DEFAULT_USER_ICON}'"
         )
     if "gacha_count" not in user_columns:
         conn.execute("ALTER TABLE users ADD COLUMN gacha_count INTEGER DEFAULT 0")
@@ -197,14 +198,6 @@ def init_db():
                     "UPDATE products SET image = ? WHERE pID = ?",
                     (matched_webp_name, row["pID"])
                 )
-
-    conn.execute(
-        """
-        UPDATE users
-        SET user_icon = 'icons-login.webp'
-        WHERE user_icon = 'icons-login.png'
-        """
-    )
 
     conn.commit()
 
@@ -397,7 +390,7 @@ def register():
             conn.execute("""
                 INSERT INTO users (name, phone, email, password, user_icon)
                 VALUES (?, ?, ?, ?, ?)
-            """, (name, phone, email, hashed_password, "user-icons/user-icon4.webp"))
+            """, (name, phone, email, hashed_password, DEFAULT_USER_ICON))
             conn.commit()
         except sqlite3.IntegrityError:
             flash("このメールアドレスは既に使用されています。")
@@ -430,7 +423,7 @@ def login():
         if user and check_password_hash(user["password"], password):
             session["user_id"] = user["userID"]
             session["user_name"] = user["name"]
-            session["user_icon"] = user["user_icon"] or "icons-login.webp"
+            session["user_icon"] = user["user_icon"] or DEFAULT_USER_ICON
             flash(f"{user['name']}さん、ログインしました。")
             return redirect(url_for("index"))
 
@@ -868,7 +861,7 @@ def mypage_icons():
 
 
 # ---------------------------------------------------------
-#  購入確定（注文登録＋メール送信）
+#  購入確定（注文登録）
 # ---------------------------------------------------------
 @app.route("/checkout/confirm", methods=["POST"])
 def checkout_confirm():
@@ -954,7 +947,6 @@ def checkout_confirm():
     # カート削除
     conn.execute("DELETE FROM carts WHERE userID = ?", (user_id,))
     conn.commit()
-
     conn.close()
 
     return redirect(url_for("order_complete", order_id=order_id, total=total))

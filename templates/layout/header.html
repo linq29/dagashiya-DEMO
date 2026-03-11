@@ -55,7 +55,7 @@
         <li>
           <a href="{{ url_for('mypage') }}">
             <div class="icon"><img
-                src="{{ url_for('static', filename='img/' ~ (session.get('user_icon') or 'icons-login.webp')) }}"></div>
+                src="{{ url_for('static', filename='img/' ~ (session.get('user_icon') or 'user-icons/user-icon3.webp')) }}"></div>
             <p>{{ session.get('user_name') or 'マイページ' }}
               {% if gacha_count is not none %}
               <span class="gacha-status">（わくわく券：<span id="headerGachaCount" data-count="{{ gacha_count }}">{{ gacha_count }}</span> 枚）</span>
