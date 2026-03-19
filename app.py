@@ -15,7 +15,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 #  Flaskアプリ設定
 # =========================================================
 app = Flask(__name__)
-app.secret_key = "secret-key"  # セッション用キー（本番では環境変数にする）
+app.secret_key = os.environ.get("SECRET_KEY", "secret-key")  # セッション用キー（本番では環境変数にする）
 
 
 def format_yen(value):
